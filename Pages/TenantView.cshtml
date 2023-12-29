@@ -34,7 +34,7 @@ else if (Model.successMessage.Length > 0)
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Lease ID</th>
+                        
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th>Associated Property</th>
@@ -44,7 +44,7 @@ else if (Model.successMessage.Length > 0)
                     @foreach (var lease in Model.Leases)
                     {
                         <tr>
-                            <td>@lease.LeaseID</td>
+                            
                             <td>@lease.StartDate.ToShortDateString()</td>
                             <td>@lease.EndDate.ToShortDateString()</td>
                             <td>@lease.PropertyName</td>
@@ -59,8 +59,9 @@ else if (Model.successMessage.Length > 0)
             @foreach (var payment in Model.RentPayments.Take(3))
             {
                 <div>
-                    <p><strong>Payment ID:</strong> @payment.RentPaymentID</p>
-                    <p><strong>Payment Amount:</strong> @payment.Rent</p>
+                    <p><strong>Invoice Number:</strong> @payment.RentPaymentID</p>
+                    <p><strong>Payment Amount:</strong> $@payment.Rent</p>
+                    <p><strong>Due Date:</strong> @payment.DueDate.ToShortDateString()</p>
                     <p><strong>Date Paid:</strong> @payment.PaymentDate</p>
                     <p><strong>Payment Status:</strong> @payment.Status</p>
                 </div>
@@ -75,7 +76,8 @@ else if (Model.successMessage.Length > 0)
                 {
                     <div>
                         <p><strong>Payment ID:</strong> @payment.RentPaymentID</p>
-                        <p><strong>Payment Amount:</strong> @payment.Rent</p>
+                        <p><strong>Payment Amount:</strong> $@payment.Rent</p>
+                        <p><strong>Due Date:</strong> @payment.DueDate.ToShortDateString()</p>
                         <p><strong>Date Paid:</strong> @payment.PaymentDate</p>
                         <p><strong>Payment Status:</strong> @payment.Status</p>
                     </div>
@@ -96,7 +98,7 @@ else if (Model.successMessage.Length > 0)
         <table class="table">
             <thead>
                 <tr>
-                    <th>Issue ID</th>
+                    
                     <th>Title</th>
                     <th>Description</th>
                     <th>Date Reported</th>
@@ -107,7 +109,7 @@ else if (Model.successMessage.Length > 0)
                 @foreach (var maintenanceIssue in Model.MaintenanceIssues)
                 {
                     <tr>
-                        <td>@maintenanceIssue.MaintenanceIssueID</td>
+                        
                         <td>@maintenanceIssue.IssueTitle</td>
                         <td>@maintenanceIssue.IssueDescription</td>
                         <td>@maintenanceIssue.DateReported.ToShortDateString()</td>
