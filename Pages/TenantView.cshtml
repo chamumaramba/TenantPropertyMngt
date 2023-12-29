@@ -1,0 +1,139 @@
+﻿@page
+@model TenantPropertyMngt.Pages.TenantViewModel
+@{
+    ViewData["Title"] = "Tenant Information";
+}
+
+<!-- Include Bootstrap CSS link here -->
+
+<div>
+    <h3>Welcome @Model.Tenant.TenantName</h3>
+    <p><strong>Email:</strong> @Model.Tenant.Email</p>
+
+</div>
+@if (Model.errorMessage.Length > 0)
+{
+    <div class="alert-warning alert-dismissible fade show" role="alert">
+        <strong>@Model.errorMessage</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+else if (Model.successMessage.Length > 0)
+{
+    <div class="alert-success alert-dismissible fade show" role="alert">
+        <strong>@Model.successMessage</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div>
+    <h3>Lease Information</h3>
+    @if (Model.Leases.Any())
+    {
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Lease ID</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Associated Property</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var lease in Model.Leases)
+                    {
+                        <tr>
+                            <td>@lease.LeaseID</td>
+                            <td>@lease.StartDate.ToShortDateString()</td>
+                            <td>@lease.EndDate.ToShortDateString()</td>
+                            <td>@lease.PropertyName</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Rent Payments</h2>
+        <div class="rent-payments-container">
+            @foreach (var payment in Model.RentPayments.Take(3))
+            {
+                <div>
+                    <p><strong>Payment ID:</strong> @payment.RentPaymentID</p>
+                    <p><strong>Payment Amount:</strong> @payment.Rent</p>
+                    <p><strong>Date Paid:</strong> @payment.PaymentDate.ToShortDateString()</p>
+                    <p><strong>Payment Status:</strong> @payment.Status</p>
+                </div>
+            }
+        </div>
+
+        @if (Model.RentPayments.Count() > 3)
+        {
+            <a href="#" class="see-more-link">See More</a>
+            <div class="rent-payments-hidden">
+                @foreach (var payment in Model.RentPayments.Skip(3))
+                {
+                    <div>
+                        <p><strong>Payment ID:</strong> @payment.RentPaymentID</p>
+                        <p><strong>Payment Amount:</strong> @payment.Rent</p>
+                        <p><strong>Date Paid:</strong> @payment.PaymentDate.ToShortDateString()</p>
+                        <p><strong>Payment Status:</strong> @payment.Status</p>
+                    </div>
+                }
+            </div>
+        }
+    }
+    else
+    {
+        <p>No leases found for this tenant.</p>
+    }
+</div>
+
+<div>
+    <h2>Maintenance Issues</h2>
+    @if (Model.MaintenanceIssues.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Issue ID</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Date Reported</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var maintenanceIssue in Model.MaintenanceIssues)
+                {
+                    <tr>
+                        <td>@maintenanceIssue.MaintenanceIssueID</td>
+                        <td>@maintenanceIssue.IssueTitle</td>
+                        <td>@maintenanceIssue.IssueDescription</td>
+                        <td>@maintenanceIssue.DateReported.ToShortDateString()</td>
+                        <td>@maintenanceIssue.Status</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No maintenance issues found for this tenant.</p>
+    }
+</div>
+
+<!-- Include Bootstrap JavaScript link here -->
+<script>
+    // Add JavaScript to toggle visibility of hidden rent payments
+    document.addEventListener("DOMContentLoaded", function () {
+        var seeMoreLink = document.querySelector(".see-more-link");
+        var hiddenRentPayments = document.querySelector(".rent-payments-hidden");
+
+        if (seeMoreLink && hiddenRentPayments) {
+            seeMoreLink.addEventListener("click", function () {
+                hiddenRentPayments.classList.toggle("d-none");
+            });
+        }
+    });
+</script>

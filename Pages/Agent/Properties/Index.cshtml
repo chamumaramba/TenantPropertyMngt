@@ -1,0 +1,65 @@
+﻿@page
+@model TenantPropertyMngt.Pages.Agent.Properties.IndexModel
+@{
+}
+
+
+<h2 class="text-center mb-5">List for Properties</h2>
+
+<div class="row mb-5">
+    <div class="col">
+        <a class="btn btn-primary" href="/Agent/Properties/Create">Add Property</a>
+    </div>
+    <div class="col">
+        <form class="d-flex">
+            <input class="form-control me-2" type="search" name="search" value="@Model.search" placeholder="Search by Type or Name " aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+</div>
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Location</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Rent</th>
+        <th>Image</th>
+        <th>Status</th>
+        <th>Owner</th>
+        <th>Action</th>
+    </tr>
+    @foreach(var property in Model.properties)
+    {
+        <tr>
+            <td>@property.PropertyID</td>
+            <td>@property.PropertyName</td>
+            <td>@property.PropertyType</td>
+            <td>@property.PropertyDescription</td>
+            <td>@(property.Rent)$</td>
+            <td><img src="/Images/@property.ImageFileName" width="100" /></td>
+            <td>@property.Status</td>
+            <td>@property.PropertyOwnerID</td>
+            <td style="white-space:nowrap">
+                <a class="btn btn-primary btn-sm" href="/Agent/Properties/Edit?id= @property.PropertyID">Edit</a>
+                <a class="btn btn-primary btn-sm" href="/Agent/Properties/Delete?id=@property.PropertyID">Delete</a>
+                <a class="btn btn-primary btn-sm" href="/Agent/Properties/Details?id=@property.PropertyID">Details</a>
+            </td>
+        </tr>
+    }
+</table>
+<nav">
+    <ul class="pagination">       
+        @for(int i = 1; i <= Model.totalPages; i++)
+        {
+            string active = "";
+            if (i == Model.pageIndex) active = "active";
+            {
+                <li class="page-item @active" aria-current="page">
+                     <a class="page-link" href="?pageIndex=@(i)&search=@(Model.search)">@i</a>
+                </li>
+            }
+  
+        }
+    </ul>
+</nav>

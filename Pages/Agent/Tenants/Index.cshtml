@@ -1,0 +1,80 @@
+﻿@page
+@model TenantPropertyMngt.Pages.Agent.Tenants.IndexModel
+@{
+}
+
+@{
+    // Add role-based authorization here
+    var isAdmin = User.IsInRole("admin");
+    var isAgent = User.IsInRole("agent");
+}
+
+@if (isAdmin || isAgent)
+{
+    <h2 class="text-center mb-5">List for Tenants</h2>
+
+    <div class="row mb-5">
+        <div class="col">
+            <a class="btn btn-primary" href="/Agent/Tenants/Create">New Tenant</a>
+        </div>
+        <div class="col">
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" name="search" value="@Model.search" placeholder="Search by Name, Email or ID Card/Passport" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>  
+            <th>ID/Passport</th>
+            <th>Date of Birth</th>
+            <th>Gender</th>
+            <th>Marital Status</th>
+            <th>Occupation</th>
+            <th>Email</th>
+            <th>Telephone</th>
+            <th>Property</th>
+            <th>Action</th>
+            
+        </tr>
+        @foreach (var tenant in Model.tenants)
+        {
+            <tr>
+                <td>@tenant.TenantID</td>
+                <td>@tenant.TenantName</td>
+                <td>@tenant.IdCard</td>
+                <td>@tenant.DateOfBirth</td>
+                <td>@tenant.Gender</td>
+                <td>@tenant.MaritalStatus</td>
+                <td>@tenant.Occupation</td>
+                <td>@tenant.Email</td>
+                <td>@tenant.Telephone</td>
+                <td>@tenant.PropertyID</td>
+                <td style="white-space:nowrap">
+                    <a class="btn btn-primary btn-sm" href="/Agent/Tenants/Edit?id=@tenant.TenantID">Edit</a>
+                    <a class="btn btn-primary btn-sm" href="/Agent/Tenants/Delete?id=@tenant.TenantID">Delete</a>
+                    <a class="btn btn-primary btn-sm" href="/Agent/Tenants/Details?id=@tenant.TenantID">Details</a>
+                </td>
+            </tr>
+        }
+    </table>
+
+    <nav>
+        <ul class="pagination">
+            @for (int i = 1; i <= Model.totalPages; i++)
+            {
+                string active = (i == Model.pageIndex) ? "active" : "";
+                <li class="page-item @active" aria-current="page">
+                    <a class="page-link" href="?pageIndex=@(i)&search=@(Model.search)">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
+else
+{
+    <p>You do not have permission to access this page.</p>
+}

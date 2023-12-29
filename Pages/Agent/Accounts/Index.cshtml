@@ -1,0 +1,70 @@
+﻿@page
+@model TenantPropertyMngt.Pages.Agent.Accounts.IndexModel
+@{
+}
+
+<h2 class="text-center mb-5">Invoices</h2>
+
+<div class="row mb-5">
+    <div class="col">
+        <a class="btn btn-primary" href="/Agent/Accounts/Create">Create Invoice</a>
+    </div>
+    <div class="col">
+        <form class="d-flex">
+            <input class="form-control me-2" type="search" name="search" value="@Model.search" placeholder="Search by Address or Name " aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Telephone</th>
+        <th>Address</th>
+        <th>Amount to Pay</th>
+        <th>Lease Start Date</th>
+        <th>Due Date</th>
+        <th>Payment Date</th>               
+        <th>Status</th>
+        <th>Action</th>
+        
+    </tr>
+    @foreach (var rent in Model.rentPayments)
+    {
+        <tr>
+            <td>@rent.RentPaymentID</td>
+            <td>@rent.TenantName</td>
+            <td>@rent.Telephone</td>
+            <td>@rent.PropertyName</td>
+            <td>@rent.Rent</td>
+            <td>@rent.StartDate.Substring(0, 10)</td>
+
+            <td>@rent.DueDate.ToShortDateString()</td>
+            <td>@rent.PaymentDate.ToShortDateString()</td>                       
+            <td>@rent.Status</td>           
+
+            <td style="white-space:nowrap">
+                <a class="btn btn-primary btn-sm" href="/Agent/Accounts/Update?id=@rent.RentPaymentID">Update</a>
+                <a class="btn btn-primary btn-sm" href="/Agent/Accounts/Delete?id=@rent.RentPaymentID">Delete</a>
+                <a class="btn btn-primary btn-sm" href="/Agent/Accounts/Details?id=@rent.RentPaymentID">Details</a>
+            </td>
+        </tr>
+    }
+</table>
+
+<nav">
+    <ul class="pagination">
+@for (int i = 1; i <= Model.totalPages; i++)
+{
+    string active = "";
+    if (i == Model.pageIndex) active = "active";
+    {
+                <li class="page-item @active" aria-current="page">
+                    <a class="page-link" href="?pageIndex=@(i)&search=@(Model.search)">@i</a>
+                </li>
+    }
+
+}
+    </ul>
