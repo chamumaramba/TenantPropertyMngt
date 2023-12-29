@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TenantPropertyMngt.Data;
 
@@ -11,9 +12,11 @@ using TenantPropertyMngt.Data;
 namespace TenantPropertyMngt.Migrations
 {
     [DbContext(typeof(TenantPropertyMngtDbContext))]
-    partial class TenantPropertyMngtDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231229173343_DateDMigration")]
+    partial class DateDMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,19 +54,19 @@ namespace TenantPropertyMngt.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1be2bcbb-a7b7-469b-84e3-82be4a7773d6",
+                            Id = "2268b66f-60d7-4ea7-b8d8-8a20a0d1ddd6",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "01802a70-41ff-4059-be34-2dfa80d1c815",
+                            Id = "c92f771c-b9c6-4238-8942-5164fd2faeeb",
                             Name = "agent",
                             NormalizedName = "agent"
                         },
                         new
                         {
-                            Id = "42fd150f-a8b6-43cc-8291-44b9e172e83c",
+                            Id = "9ce94ab7-b59f-4af8-ae93-df579faea7fd",
                             Name = "tenant",
                             NormalizedName = "tenant"
                         });
@@ -479,7 +482,7 @@ namespace TenantPropertyMngt.Migrations
                     b.Property<int>("LeaseID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("PaymentDate")
+                    b.Property<DateTime>("PaymentDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PropertyName")

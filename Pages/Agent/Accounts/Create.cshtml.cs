@@ -33,18 +33,17 @@ namespace TenantPropertyMngt.Pages.Agent.Accounts
         {
             try
             {
-                // Get leases without a payment for the current month
                 var leasesWithoutPayment = context.Leases
-                    .Where(lease => !context.RentPayments
-                        .Any(payment => payment.LeaseID == lease.LeaseID
-                            && payment.PaymentDate.Month == DateTime.Now.Month
-                            && payment.PaymentDate.Year == DateTime.Now.Year))
-                    .Select(t => new SelectListItem
-                    {
-                        Value = $"{t.LeaseID}, {t.TenantName}, {t.Telephone},{t.PropertyName}, {t.Rent}, {t.StartDate}",
-                        Text = $"{t.LeaseID}, {t.TenantName}, {t.Telephone}, {t.PropertyName}, {t.Rent}, {t.StartDate} "
-                    })
-                    .ToList();
+                     .Where(lease => !context.RentPayments
+                         .Any(payment => payment.LeaseID == lease.LeaseID
+                             && (payment.PaymentDate.HasValue ? payment.PaymentDate.Value.Month : (int?)null) == DateTime.Now.Month
+                             && (payment.PaymentDate.HasValue ? payment.PaymentDate.Value.Year : (int?)null) == DateTime.Now.Year))
+        .Select(t => new SelectListItem
+       {
+           Value = $"{t.LeaseID}, {t.TenantName}, {t.Telephone},{t.PropertyName}, {t.Rent}, {t.StartDate}",
+           Text = $"{t.LeaseID}, {t.TenantName}, {t.Telephone}, {t.PropertyName}, {t.Rent}, {t.StartDate} "
+       })
+       .ToList();
 
                 ViewData["Leases"] = leasesWithoutPayment;
              
@@ -91,7 +90,7 @@ namespace TenantPropertyMngt.Pages.Agent.Accounts
                     Rent = rentPaymentDto.Rent,
                     DueDate = rentPaymentDto.DueDate,
                     PaymentDate = rentPaymentDto.PaymentDate,
-                    Status = (rentPaymentDto.PaymentDate != DateTime.MinValue)
+                    Status = (rentPaymentDto.PaymentDate != null)
                         ? (DateTime.Now.Date > rentPaymentDto.DueDate) ? RentStatus.Overdue : RentStatus.Paid
                         : (DateTime.Now.Date > rentPaymentDto.DueDate) ? RentStatus.Overdue : RentStatus.Pending,
 

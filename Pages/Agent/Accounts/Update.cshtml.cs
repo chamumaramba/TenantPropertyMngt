@@ -52,51 +52,69 @@ namespace TenantPropertyMngt.Pages.Agent.Accounts
             rentPaymentModel = invoice;
         }
 
-        public void OnPost(int? id)
+        public async Task<IActionResult> OnPost(int id)
         {
             if (id == null || id == 0)
             {
                 Response.Redirect("/Agent/Accounts/Index");
-                return;
+                return Page();
             }
 
             if (!ModelState.IsValid)
             {
                 errorMessage = "Please provide all the required fields";
-                return;
+                return Page();
             }
 
-            var Invoice = context.RentPayments.Find(id);
-            if (Invoice == null)
+            var invoice = context.RentPayments.Find(id);
+            if (invoice == null)
             {
-                Response.Redirect("/Agent/Accounts/Index");
-                return;
+                return RedirectToPage("/Agent/Accounts/Index");
             }
-            
-            Invoice.TenantName=rentPaymentDto.TenantName;
-            Invoice.Telephone=rentPaymentDto.Telephone;
-            Invoice.PropertyName=rentPaymentDto.PropertyName;
-            Invoice.StartDate=rentPaymentDto.StartDate;
-            Invoice.Rent=rentPaymentDto.Rent;
-            Invoice.DueDate=rentPaymentDto.DueDate;
-            //Invoice.PaymentDate=rentPaymentDto.PaymentDate;
+
+            invoice.TenantName = rentPaymentDto.TenantName;
+            invoice.Telephone = rentPaymentDto.Telephone;
+            invoice.PropertyName = rentPaymentDto.PropertyName;
+            invoice.StartDate = rentPaymentDto.StartDate;
+            invoice.Rent = rentPaymentDto.Rent;
+            invoice.DueDate = rentPaymentDto.DueDate;
+            invoice.PaymentDate = rentPaymentDto.PaymentDate;
+
             if (rentPaymentDto.PaymentDate != null)
             {
-                Invoice.Status = DateTime.Now.Date > rentPaymentDto.DueDate ? RentStatus.Paid : RentStatus.Pending;
+                if (DateTime.Now.Date <= rentPaymentDto.DueDate)
+                {
+                    invoice.Status = RentStatus.Paid;
+                }
+                else
+                {
+                    invoice.Status = RentStatus.Pending;
+                }
             }
             else
             {
-                Invoice.Status = DateTime.Now.Date > rentPaymentDto.DueDate ? RentStatus.Overdue : RentStatus.Pending;
+                if (DateTime.Now.Date > rentPaymentDto.DueDate)
+                {
+                    invoice.Status = RentStatus.Overdue;
+                }
+                else
+                {
+                    invoice.Status = RentStatus.Pending;
+                }
             }
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
-            rentPaymentModel = Invoice;
+            Console.WriteLine($"PaymentDate: {rentPaymentDto.PaymentDate}");
+            Console.WriteLine($"DueDate: {rentPaymentDto.DueDate}");
+            ModelState.Clear();
+            rentPaymentModel = invoice;
 
-            successMessage="Invoice update successful.";
-            
-            Response.Redirect("/Agent/Accounts/Index");
+            successMessage = "Invoice update successful.";
+
+            return RedirectToPage("/Agent/Accounts/Index");
         }
+
 
     }
 }

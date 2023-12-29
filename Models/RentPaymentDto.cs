@@ -27,15 +27,15 @@ namespace TenantPropertyMngt.Models
 
         [Display(Name = "Payment Date")]
         [DataType(DataType.Date)]
-        public DateTime PaymentDate { get; set; } = DateTime.MinValue;
+        public DateTime? PaymentDate { get; set; }
 
         [Display(Name = "Due Date")]
        
-        public string StartDate { get; set; }
+        public string? StartDate { get; set; }
 
         [Display(Name = "Lease Start Date")]
         [DataType(DataType.Date)]
-        public DateTime DueDate { get; set; }= DateTime.Now;
+        public DateTime DueDate { get; set; }=DateTime.Now;
 
         [Display(Name = "Status")]
         public RentStatus Status { get; set; } = RentStatus.Pending;

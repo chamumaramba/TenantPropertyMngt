@@ -61,7 +61,7 @@ else if (Model.successMessage.Length > 0)
                 <div>
                     <p><strong>Payment ID:</strong> @payment.RentPaymentID</p>
                     <p><strong>Payment Amount:</strong> @payment.Rent</p>
-                    <p><strong>Date Paid:</strong> @payment.PaymentDate.ToShortDateString()</p>
+                    <p><strong>Date Paid:</strong> @payment.PaymentDate</p>
                     <p><strong>Payment Status:</strong> @payment.Status</p>
                 </div>
             }
@@ -76,7 +76,7 @@ else if (Model.successMessage.Length > 0)
                     <div>
                         <p><strong>Payment ID:</strong> @payment.RentPaymentID</p>
                         <p><strong>Payment Amount:</strong> @payment.Rent</p>
-                        <p><strong>Date Paid:</strong> @payment.PaymentDate.ToShortDateString()</p>
+                        <p><strong>Date Paid:</strong> @payment.PaymentDate</p>
                         <p><strong>Payment Status:</strong> @payment.Status</p>
                     </div>
                 }

@@ -6,9 +6,8 @@ namespace TenantPropertyMngt.Models
 {
     public enum RentStatus
     {
-        Paid,
         Pending,
-        DueToday,
+        Paid,
         Overdue
     }
     public class RentPaymentModel
@@ -44,7 +43,7 @@ namespace TenantPropertyMngt.Models
 
         [Display(Name = "Payment Date")]
         [DataType(DataType.Date)]
-        public DateTime PaymentDate { get; set; }= DateTime.MinValue;
+        public DateTime? PaymentDate { get; set; }
         [Display(Name = "Status")]
         public RentStatus Status { get; set; } = RentStatus.Pending;
 
