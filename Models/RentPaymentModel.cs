@@ -14,6 +14,7 @@ namespace TenantPropertyMngt.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Display(Name ="Invoice Number")]
         public int RentPaymentID { get; set; }
 
         [Display(Name = "Lease ID")]

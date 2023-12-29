@@ -20,25 +20,22 @@
 
 <table class="table">
     <tr>
-        <th>Owner ID</th>
         <th>Full Name</th>
         <th>ID Card/Passport</th>
         <th>Telephone</th>
         <th>Email</th>
         <th>Address</th>
-        <th>Bank account</th>
         <th>Action</th>
     </tr>
     @foreach(var owner in Model.propertyOwners)
     {
         <tr>
-            <td>@owner.PropertyOwnerID</td>
             <td>@owner.PropertyOwnerName</td>
             <td>@owner.OwnerIdCard</td>
             <td>@owner.Telephone</td>
             <td>@owner.Email</td>
             <td>@owner.Address</td>
-            <td>@owner.PaymentDetails</td>
+      
             
             <td style="white-space:nowrap">
                 <a class="btn btn-primary btn-sm" href="/Agent/PropertyOwners/Edit?id= @owner.PropertyOwnerID">Edit</a>

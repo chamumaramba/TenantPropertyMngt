@@ -19,27 +19,26 @@
 </div>
 <table class="table">
     <tr>
-        <th>ID</th>
+        
         <th>Location</th>
         <th>Type</th>
         <th>Description</th>
         <th>Rent</th>
         <th>Image</th>
         <th>Status</th>
-        <th>Owner</th>
         <th>Action</th>
     </tr>
     @foreach(var property in Model.properties)
     {
         <tr>
-            <td>@property.PropertyID</td>
+            
             <td>@property.PropertyName</td>
             <td>@property.PropertyType</td>
             <td>@property.PropertyDescription</td>
             <td>@(property.Rent)$</td>
             <td><img src="/Images/@property.ImageFileName" width="100" /></td>
             <td>@property.Status</td>
-            <td>@property.PropertyOwnerID</td>
+            
             <td style="white-space:nowrap">
                 <a class="btn btn-primary btn-sm" href="/Agent/Properties/Edit?id= @property.PropertyID">Edit</a>
                 <a class="btn btn-primary btn-sm" href="/Agent/Properties/Delete?id=@property.PropertyID">Delete</a>

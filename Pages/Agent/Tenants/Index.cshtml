@@ -27,15 +27,10 @@
 
     <table class="table">
         <tr>
-            <th>ID</th>
             <th>Name</th>  
             <th>ID/Passport</th>
-            <th>Date of Birth</th>
             <th>Gender</th>
-            <th>Marital Status</th>
             <th>Occupation</th>
-            <th>Email</th>
-            <th>Telephone</th>
             <th>Property</th>
             <th>Action</th>
             
@@ -43,16 +38,13 @@
         @foreach (var tenant in Model.tenants)
         {
             <tr>
-                <td>@tenant.TenantID</td>
+                
                 <td>@tenant.TenantName</td>
                 <td>@tenant.IdCard</td>
-                <td>@tenant.DateOfBirth</td>
                 <td>@tenant.Gender</td>
-                <td>@tenant.MaritalStatus</td>
                 <td>@tenant.Occupation</td>
-                <td>@tenant.Email</td>
-                <td>@tenant.Telephone</td>
                 <td>@tenant.PropertyID</td>
+
                 <td style="white-space:nowrap">
                     <a class="btn btn-primary btn-sm" href="/Agent/Tenants/Edit?id=@tenant.TenantID">Edit</a>
                     <a class="btn btn-primary btn-sm" href="/Agent/Tenants/Delete?id=@tenant.TenantID">Delete</a>

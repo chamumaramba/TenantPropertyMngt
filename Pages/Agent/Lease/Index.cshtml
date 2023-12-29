@@ -18,14 +18,10 @@
 
 <table class="table">
     <tr>
-        <th>ID</th>
+        
         <th>Lease type</th>
         <th>Tenant</th>
-        <th>ID/Passport</th>
-        <th>Email</th>
-        <th>Telephone</th>
         <th>Property</th>
-        <th>Rent</th>
         <th>Start date</th>
         <th>End Date</th>
         <th>Status</th>  
@@ -34,14 +30,10 @@
     @foreach (var lease in Model.leases)
     {
         <tr>
-            <td>@lease.LeaseID</td>
+            
             <td>@lease.LeaseType</td>
-            <td>@lease.TenantName</td>
-            <td>@lease.IdCard</td>
-            <td>@lease.Email</td>
-            <td>@lease.Telephone</td>
+            <td>@lease.TenantName</td>          
             <td>@lease.PropertyName</td>
-            <td>@lease.Rent</td>
             <td>@lease.StartDate.ToShortDateString()</td>
             <td>@lease.EndDate.ToShortDateString()</td>
             <td>@lease.Status</td>
