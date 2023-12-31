@@ -19,6 +19,7 @@ namespace TenantPropertyMngt.Data
         public DbSet<RentPaymentModel> RentPayments { get; set; }
         public DbSet<MaintenanceModel>Maintenances { get; set; }
         public DbSet<ContractorsModel> Contractors { get; set; }
+        public DbSet<ApplicationUser> applicationUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

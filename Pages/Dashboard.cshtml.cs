@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -13,13 +14,16 @@ namespace TenantPropertyMngt.Pages
         {
             private readonly ILogger<IndexModel> _logger;
             private readonly TenantPropertyMngtDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public ApplicationUser user { get; set; }
 
-            public DashboardModel(ILogger<IndexModel> logger, TenantPropertyMngtDbContext context)
-            {
-                _logger = logger;
-                _context = context;
-            }
-            public List<MaintenanceModel> MaintenanceIssues { get; set; }
+        public DashboardModel(ILogger<IndexModel> logger, TenantPropertyMngtDbContext context, UserManager<ApplicationUser> userManager)
+        {
+            _logger = logger;
+            _context = context;
+            _userManager = userManager;
+        }
+        public List<MaintenanceModel> MaintenanceIssues { get; set; }
             public List<RentPaymentModel> OverduePayments { get; set; }
             public List<LeaseModel> NearExpiringLeases { get; set; }    
 
@@ -31,7 +35,9 @@ namespace TenantPropertyMngt.Pages
             public int OverduePaymentsCount { get; set; }
 
             public async Task OnGetAsync()
-{
+
+            {
+                user = await _userManager.GetUserAsync(User);
                 // Retrieve data from the database
                 NumberOfProperties = await _context.Properties.CountAsync();
                 OccupationRate = await CalculateOccupationRateAsync();
