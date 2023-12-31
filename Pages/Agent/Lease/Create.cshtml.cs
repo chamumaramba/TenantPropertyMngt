@@ -56,7 +56,7 @@ namespace TenantPropertyMngt.Pages.Agent.Lease
                     .ToList();
 
                 var properties = context.Properties
-                    .Where(p => p.Status != "Occupied")
+                    .Where(p => p.Status == OccupationStatus.Vacant)
                     .Select(p => new SelectListItem
                     {
                         Value = $"{p.PropertyID}, {p.PropertyName}, {p.Rent}",
@@ -119,7 +119,7 @@ namespace TenantPropertyMngt.Pages.Agent.Lease
                 }
 
                 // Check if the selected property has a vacant status
-                if (selectedProperty.Status != "Vacant")
+                if (selectedProperty.Status == OccupationStatus.Vacant)
                 {
                     ModelState.AddModelError(string.Empty, "Selected property is not vacant");
                     return Page();
@@ -149,7 +149,7 @@ namespace TenantPropertyMngt.Pages.Agent.Lease
                 context.Leases.Add(lease);
                 await context.SaveChangesAsync();
 
-                selectedProperty.Status = "Occupied";
+                selectedProperty.Status = OccupationStatus.Occupied;
                 await context.SaveChangesAsync();
 
                 SuccessMessage = "Lease created successfully";

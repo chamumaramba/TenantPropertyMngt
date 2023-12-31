@@ -1,9 +1,11 @@
-using Humanizer.Localisation;
+// TerminateModel.cs
+using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using TenantPropertyMngt.Data;
 using TenantPropertyMngt.Models;
 
@@ -13,77 +15,80 @@ namespace TenantPropertyMngt.Pages.Agent.Lease
     {
         private readonly IWebHostEnvironment _environment;
         private readonly TenantPropertyMngtDbContext _context;
+        private readonly ILogger<TerminateModel> _logger;
 
-        public TerminateModel(TenantPropertyMngtDbContext context, IWebHostEnvironment environment)
+        public TerminateModel(TenantPropertyMngtDbContext context, IWebHostEnvironment environment, ILogger<TerminateModel> logger)
         {
             _context = context;
             _environment = environment;
+            _logger = logger;
         }
 
         [BindProperty]
         public LeaseModel LeaseModel { get; set; } = default!;
 
-        private bool LeaseGenerationExists(int id)
-        {
-            return (_context.Leases?.Any(e => e.LeaseID == id)).GetValueOrDefault();
-        }
-
         public async Task<IActionResult> OnPostTerminateLease(int? id)
         {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
             if (id == null || _context.Leases == null)
             {
                 return NotFound();
             }
 
-            var lease = await _context.Leases.FirstOrDefaultAsync(m => m.LeaseID == id);
-
-            if (lease == null)
+            using (var transaction = await _context.Database.BeginTransactionAsync())
             {
-                return NotFound();
-            }
-
-            try
-            {
-                // Retrieve associated PropertyID
-                var propertyId = lease.PropertyID;
-
-                // Update the Tenants table to remove the associated PropertyID
-                var tenant = await _context.Tenants.FirstOrDefaultAsync(t => t.TenantID == lease.TenantID);
-
-                if (tenant != null)
+                try
                 {
-                    tenant.PropertyID = 0;
+                    var lease = await _context.Leases.FirstOrDefaultAsync(m => m.LeaseID == id);
+
+                    if (lease == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Retrieve associated PropertyID
+                    var propertyId = lease.PropertyID;
+
+                    // Update the Tenants table to remove the associated PropertyID
+                    var tenant = await _context.Tenants.FirstOrDefaultAsync(t => t.TenantID == lease.TenantID);
+
+                    if (tenant != null)
+                    {
+                        tenant.PropertyID = null; // Remove the association with the property
+                    }
+
+                    // Update the Properties table to set Status to "Vacant"
+                    var property = await _context.Properties.FirstOrDefaultAsync(p => p.PropertyID == propertyId);
+
+                    if (property != null)
+                    {
+                        property.Status = OccupationStatus.Vacant;
+                    }
+
+                    // Mark the Lease as terminated
+                    lease.Status = LeaseStatus.Terminated;
+
+                    // Save changes to the database
+                    await _context.SaveChangesAsync();
+                    transaction.Commit();
+
+                    _logger.LogInformation("Lease terminated successfully.");
+
+                    return RedirectToPage("/Index");
                 }
-
-                // Update the Properties table to set Status to "Vacant"
-                var property = await _context.Properties.FirstOrDefaultAsync(p => p.PropertyID == propertyId);
-
-                if (property != null)
+                catch (Exception ex)
                 {
-                    property.Status = OccupationStatus.Vacant.ToString();
+                    _logger.LogError(ex, "An error occurred while terminating the lease.");
+
+                    await transaction.RollbackAsync();
+
+                    return RedirectToPage("/Error");
                 }
-
-                // Mark the Lease as terminated
-                lease.Status = LeaseStatus.Terminated;
-
-                // Save changes to the database
-                await _context.SaveChangesAsync();
-
-                return RedirectToPage("/Index"); // Redirect to a success page
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Exception: {ex.Message}");
-                Console.WriteLine($"StackTrace: {ex.StackTrace}");
-
-                // Redirect to an error page
-                return RedirectToPage("/Error");
-            }
-
         }
     }
-
 }
-
-
-

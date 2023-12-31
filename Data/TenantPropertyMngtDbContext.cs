@@ -35,6 +35,10 @@ namespace TenantPropertyMngt.Data
 
             modelBuilder.Entity<IdentityRole>().HasData(admin, agent, tenant);
 
+            modelBuilder.Entity<PropertyModel>()
+           .Property(p => p.Status)
+           .HasConversion<string>();
+
             modelBuilder.Entity<LeaseModel>()
                 .HasOne(l => l.Tenant)
                 .WithMany(t => t.lease)  // Corrected property name here (t.leases)

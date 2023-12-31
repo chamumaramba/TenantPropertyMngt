@@ -31,7 +31,7 @@ namespace TenantPropertyMngt.Models
         [Display(Name ="Image")]
         public string? ImageFileName { get; set; }
 
-        public string Status { get; set; } = OccupationStatus.Vacant.ToString();
+        public OccupationStatus Status { get; set; } = OccupationStatus.Vacant;
 
         public int? TenantID { get; set; }
 

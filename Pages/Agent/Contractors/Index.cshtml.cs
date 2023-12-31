@@ -12,7 +12,7 @@ namespace TenantPropertyMngt.Pages.Agent.Contractors
         //page numbering
         public int pageIndex = 1;
         public int totalPages = 0;
-        private readonly int pageSize = 10;
+        private readonly int pageSize = 5;
 
         //Search functionality
         public string search = "";

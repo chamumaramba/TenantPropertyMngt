@@ -38,6 +38,8 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseWebSockets();
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapRazorPages();

@@ -71,7 +71,7 @@ namespace TenantPropertyMngt.Pages
                
                 var totalProperties = await _context.Properties.CountAsync();
                 var occupiedProperties = await _context.Properties
-                    .Where(p => p.Status == OccupationStatus.Occupied.ToString())
+                    .Where(p => p.Status == OccupationStatus.Occupied)
                     .CountAsync();
 
                 return totalProperties > 0

@@ -21,7 +21,7 @@ namespace TenantPropertyMngt.Models
         [Display(Name ="Image")]
         public IFormFile? ImageFile { get; set; }
 
-        public string Status { get; set; } = OccupationStatus.Vacant.ToString();
+        public OccupationStatus Status { get; set; } = OccupationStatus.Vacant;
 
         public string? Telephone { get; set; }
         public string? Owner { get; set; } = string.Empty;

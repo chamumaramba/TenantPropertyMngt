@@ -78,6 +78,7 @@ namespace TenantPropertyMngt.Pages.Agent.Tenants
             tenant.TenantName= tenantDto.TenantName;
             tenant.DateOfBirth = tenantDto.DateOfBirth;
             tenant.Gender = tenantDto.Gender;
+            tenant.IdCard = tenantDto.IdCard;
             tenant.MaritalStatus = tenantDto.MaritalStatus;
             tenant.Telephone = tenantDto.Telephone;
             tenant.Occupation = tenantDto.Occupation;
@@ -88,9 +89,7 @@ namespace TenantPropertyMngt.Pages.Agent.Tenants
             context.SaveChanges();
 
             tenantModel = tenant;
-
-            
-
+           
             successMessage = "Tenant update successful.";
             Response.Redirect("/Agent/Tenants/Index");
         }

@@ -52,18 +52,19 @@ namespace TenantPropertyMngt.Pages.Agent.Tenants
                 IdCard = tenantDto.IdCard,
                 Occupation = tenantDto.Occupation,
                 Email = tenantDto.Email,
+                PropertyID = tenantDto.PropertyID,
             };
             context.Tenants.Add(tenant);
             context.SaveChanges();
 
             //clear form
-            tenantDto.TenantName = "";
-            tenantDto.DateOfBirth = "";
-            tenantDto.Gender = "";
-            tenantDto.MaritalStatus = "";
-            tenantDto.Telephone = "";
-            tenantDto.Occupation = "";
-            tenantDto.Email = "";
+            //tenantDto.TenantName = "";
+            //tenantDto.DateOfBirth = "";
+            //tenantDto.Gender = "";
+            //tenantDto.MaritalStatus = "";
+            //tenantDto.Telephone = "";
+            //tenantDto.Occupation = "";
+            //tenantDto.Email = "";
  
             ModelState.Clear();
 
