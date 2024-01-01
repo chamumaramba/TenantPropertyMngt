@@ -19,7 +19,7 @@ namespace TenantPropertyMngt.Data
         public DbSet<RentPaymentModel> RentPayments { get; set; }
         public DbSet<MaintenanceModel>Maintenances { get; set; }
         public DbSet<ContractorsModel> Contractors { get; set; }
-        public DbSet<ApplicationUser> applicationUsers { get; set; }
+     
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,7 +42,7 @@ namespace TenantPropertyMngt.Data
 
             modelBuilder.Entity<LeaseModel>()
                 .HasOne(l => l.Tenant)
-                .WithMany(t => t.lease)  // Corrected property name here (t.leases)
+                .WithMany(t => t.lease) 
                 .HasForeignKey(l => l.TenantID)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -59,11 +59,11 @@ namespace TenantPropertyMngt.Data
 
             modelBuilder.Entity<LeaseModel>()
                 .Property(l => l.Rent)
-                .HasColumnType("decimal(18,0)");  // Corrected precision and scale for Rent property
+                .HasColumnType("decimal(18,0)");  
 
             modelBuilder.Entity<PropertyModel>()
                 .Property(p => p.Rent)
-                .HasColumnType("decimal(18,0)");  // Corrected precision and scale for Rent property
+                .HasColumnType("decimal(18,0)");  
         }
 
     }

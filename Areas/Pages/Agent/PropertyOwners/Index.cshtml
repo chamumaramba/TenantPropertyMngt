@@ -1,0 +1,62 @@
+﻿@page
+@model TenantPropertyMngt.Pages.Agent.PropertyOwners.IndexModel
+@{
+}
+
+
+<h2 class="text-center mb-5">List for Property Owners</h2>
+
+<div class="row mb-5">
+    <div class="col">
+        <a class="btn btn-primary" href="/Agent/PropertyOwners/Create">New Property Owner</a>
+    </div>
+    <div class="col">
+        <form class="d-flex">
+            <input class="form-control me-2" type="search" name="search" value="@Model.search" placeholder="Search by Name or ID Card/Passport " aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>Full Name</th>
+        <th>ID Card/Passport</th>
+        <th>Telephone</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th>Action</th>
+    </tr>
+    @foreach(var owner in Model.propertyOwners)
+    {
+        <tr>
+            <td>@owner.PropertyOwnerName</td>
+            <td>@owner.OwnerIdCard</td>
+            <td>@owner.Telephone</td>
+            <td>@owner.Email</td>
+            <td>@owner.Address</td>
+      
+            
+            <td style="white-space:nowrap">
+                <a class="btn btn-primary btn-sm" href="/Agent/PropertyOwners/Edit?id= @owner.PropertyOwnerID">Edit</a>
+                <a class="btn btn-primary btn-sm" href="/Agent/PropertyOwners/Delete?id=@owner.PropertyOwnerID">Delete</a>
+                <a class="btn btn-primary btn-sm" href="/Agent/PropertyOwners/Details?id=@owner.PropertyOwnerID">Details</a>
+            </td>
+        </tr>
+    }
+</table>
+<nav">
+    <ul class="pagination">       
+        @for(int i = 1; i <= Model.totalPages; i++)
+        {
+            string active = "";
+            if (i == Model.pageIndex) active = "active";
+            {
+                <li class="page-item @active" aria-current="page">
+                     <a class="page-link" href="?pageIndex=@(i)&search=@(Model.search)">@i</a>
+                </li>
+            }
+  
+        }
+    </ul>
+</nav>

@@ -43,6 +43,7 @@ namespace TenantPropertyMngt.Models
 
         public virtual ICollection<LeaseModel> lease { get; set; } = new List<LeaseModel>();
 
+        [ForeignKey("PropertyID")]
         public virtual ICollection<PropertyModel>? AssociatedProperty { get; set; } = new List<PropertyModel>();
 
         public virtual ICollection<MaintenanceModel>? Maintenances { get; set; } = new List<MaintenanceModel>();

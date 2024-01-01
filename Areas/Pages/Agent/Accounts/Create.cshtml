@@ -1,0 +1,160 @@
+﻿@page
+@model TenantPropertyMngt.Pages.Agent.Accounts.CreateModel
+@{
+}
+
+
+<div class="row">
+    <div class="col-md-8 mx-auto rounded border p-3">
+        <h2 class="text-center mb-5">New Invoice</h2>
+        @if (Model.errorMessage.Length > 0)
+        {
+            <div class="alert-warning alert-dismissible fade show" role="alert">
+                <strong>@Model.errorMessage</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        else if (Model.successMessage.Length > 0)
+        {
+            <div class="alert-success alert-dismissible fade show" role="alert">
+                <strong>@Model.successMessage</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Lease Details</label>
+                <div class="col-sm-8">
+                    <select class="form-select" asp-for="rentPaymentDto.LeaseID" class="form-control" id="tenantSelect">
+
+                        <option value="">Select a tenant...</option>
+                        @foreach (var item in (List<SelectListItem>?)ViewData["Leases"] ?? new List<SelectListItem>())
+                        {
+                            var leaseDetails = item.Value.Split(',').Select(part => part.Trim()).ToArray();
+
+                            // Debug statements
+                            Console.WriteLine($"Number of elements in propertyDetails: {leaseDetails.Length}");
+                            Console.WriteLine($"Actual propertyDetails: {string.Join(", ", leaseDetails)}");
+
+                            var leaseID = leaseDetails.Length > 0 ? leaseDetails[0] : "N/A";
+                            var tenantName = leaseDetails.Length > 1 ? leaseDetails[1] : "N/A";
+                            var tenantTelephone = leaseDetails.Length > 2? leaseDetails[2] : "N/A";
+                            var propertyName = leaseDetails.Length > 3 ? leaseDetails[3] : "N/A";
+                            var propertyRent = leaseDetails.Length > 4 ? leaseDetails[4] : "N/A";
+                            var leaseStartDate = leaseDetails.Length > 5 ? leaseDetails[5] : "N/A";
+
+
+                            <option value="@leaseID" data-tenantname="@tenantName" data-tenanttelephone="@tenantTelephone" data-propertyname="@propertyName" data-propertyrent="@propertyRent" data-leasestartdate="@leaseStartDate">
+                                @($"{leaseID} - {tenantName}")
+                            </option>
+                        }
+                    </select>
+                    <span asp-validation-for="rentPaymentDto.LeaseID" class="text-danger"></span>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Telephone</label>
+                <div class="col-sm-8">
+                    <input readonly class="form-control" asp-for="rentPaymentDto.TenantName" />
+                    <span asp-validation-for="rentPaymentDto.TenantName" class="text-danger"></span>
+                </div>
+            </div>
+                                                       
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Telephone</label>
+                <div class="col-sm-8">
+                    <input readonly class="form-control" asp-for="rentPaymentDto.Telephone"/>
+                    <span asp-validation-for="rentPaymentDto.Telephone" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Property</label>
+                <div class="col-sm-8">
+                    <textarea readonly class="form-control" asp-for="rentPaymentDto.PropertyName"></textarea>
+                    <span asp-validation-for="rentPaymentDto.PropertyName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Amount</label>
+                <div class="col-sm-8">
+                    <input readonly class="form-control" asp-for="rentPaymentDto.Rent"/>
+                    <span asp-validation-for="rentPaymentDto.Rent" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Lease Start Date</label>
+                <div class="col-sm-8">
+                    <input  class="form-control" asp-for="rentPaymentDto.StartDate"/>
+                    <span asp-validation-for="rentPaymentDto.StartDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Due Date</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="rentPaymentDto.DueDate"/>
+                    <span asp-validation-for="rentPaymentDto.DueDate" class="text-danger"></span>
+                </div>
+            </div>
+           
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Date Paid</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="rentPaymentDto.PaymentDate"/>
+                    <span asp-validation-for="rentPaymentDto.PaymentDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Status</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="rentPaymentDto.Status"/>
+                    <span asp-validation-for="rentPaymentDto.Status" class="text-danger"></span>
+                </div>
+            </div>
+                  
+            <div class="row mb-3">
+                <div class="offset-sm-4 col-sm-4 d-grid">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                <div class="col-sm-4 d-grid">
+                    <a class="btn btn-outline-primary" href="/Agent/Accounts/Index" role="button">Cancel</a>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    const tenantSelect = document.getElementById('tenantSelect'); // Fix the ID here
+
+    tenantSelect.addEventListener('change', (event) => {
+        const leaseID = event.target.value;
+        const selectedOption = jQuery('#tenantSelect').find(':selected');
+        const tenantName = selectedOption.data('tenantname');
+        const tenantTelephone = selectedOption.data('tenanttelephone');
+        const propertyName = selectedOption.data('propertyname');
+        const propertyRent = selectedOption.data('propertyrent');
+        const leaseStartDate = selectedOption.data('leasestartdate');
+
+        console.log(`Lease ID: ${leaseID}`);
+        console.log(`Tenant Name: ${tenantName}`);
+
+        // Update property details fields
+        const tenantNameInput = document.getElementById('rentPaymentDto_TenantName');
+        tenantNameInput.value = tenantName !== 'N/A' ? tenantName : '';
+        const tenantTelephoneInput = document.getElementById('rentPaymentDto_Telephone');
+        tenantTelephoneInput.value = tenantTelephone !== 'N/A' ? tenantTelephone : '';
+        const propertyNameInput = document.getElementById('rentPaymentDto_PropertyName');
+        propertyNameInput.value = propertyName !== 'N/A' ? propertyName : '';
+        const leaseStartDateInput = document.getElementById('rentPaymentDto_StartDate');
+        leaseStartDateInput.value = leaseStartDate !== 'N/A' ? leaseStartDate : '';
+        const propertyRentInput = document.getElementById('rentPaymentDto_Rent');
+        propertyRentInput.value = propertyRent !== 'N/A' ? propertyRent : '';
+        
+    });
+</script>

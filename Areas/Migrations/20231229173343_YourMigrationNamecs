@@ -1,0 +1,80 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
+namespace TenantPropertyMngt.Migrations
+{
+    /// <inheritdoc />
+    public partial class DateDMigration : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DeleteData(
+                table: "AspNetRoles",
+                keyColumn: "Id",
+                keyValue: "2ba8017d-e127-4282-8151-9fa325d0af5a");
+
+            migrationBuilder.DeleteData(
+                table: "AspNetRoles",
+                keyColumn: "Id",
+                keyValue: "a6643a2b-bb10-47a2-8c47-f5d6f21d9394");
+
+            migrationBuilder.DeleteData(
+                table: "AspNetRoles",
+                keyColumn: "Id",
+                keyValue: "e5502d98-4789-4830-95e1-1eeb21099838");
+
+            migrationBuilder.RenameColumn(
+                name: "Name",
+                table: "Contractors",
+                newName: "FullName");
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "2268b66f-60d7-4ea7-b8d8-8a20a0d1ddd6", null, "admin", "admin" },
+                    { "9ce94ab7-b59f-4af8-ae93-df579faea7fd", null, "tenant", "tenant" },
+                    { "c92f771c-b9c6-4238-8942-5164fd2faeeb", null, "agent", "agent" }
+                });
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DeleteData(
+                table: "AspNetRoles",
+                keyColumn: "Id",
+                keyValue: "2268b66f-60d7-4ea7-b8d8-8a20a0d1ddd6");
+
+            migrationBuilder.DeleteData(
+                table: "AspNetRoles",
+                keyColumn: "Id",
+                keyValue: "9ce94ab7-b59f-4af8-ae93-df579faea7fd");
+
+            migrationBuilder.DeleteData(
+                table: "AspNetRoles",
+                keyColumn: "Id",
+                keyValue: "c92f771c-b9c6-4238-8942-5164fd2faeeb");
+
+            migrationBuilder.RenameColumn(
+                name: "FullName",
+                table: "Contractors",
+                newName: "Name");
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "2ba8017d-e127-4282-8151-9fa325d0af5a", null, "agent", "agent" },
+                    { "a6643a2b-bb10-47a2-8c47-f5d6f21d9394", null, "admin", "admin" },
+                    { "e5502d98-4789-4830-95e1-1eeb21099838", null, "tenant", "tenant" }
+                });
+        }
+    }
+}

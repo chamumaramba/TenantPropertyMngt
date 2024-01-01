@@ -1,0 +1,77 @@
+﻿@page
+@model TenantPropertyMngt.Pages.Agent.Tenants.DetailsModel
+@{
+}
+<h1>Tenant Details</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.tenantDto.TenantID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.tenantDto.TenantID)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.tenantDto.TenantName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.tenantDto.TenantName)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.tenantDto.IdCard)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.tenantDto.IdCard)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.tenantDto.DateOfBirth)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.tenantDto.DateOfBirth)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.tenantDto.Gender)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.tenantDto.Gender)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.tenantDto.MaritalStatus)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.tenantDto.MaritalStatus)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.tenantDto.Telephone)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.tenantDto.Telephone)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.tenantDto.Occupation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.tenantDto.Occupation)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.tenantDto.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.tenantDto.Email)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.tenantModel?.TenantID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

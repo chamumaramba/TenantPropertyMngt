@@ -1,0 +1,215 @@
+﻿@page
+@model TenantPropertyMngt.Pages.Agent.Lease.CreateModel
+@{
+}
+
+<div class="row">
+    <div class="col-md-8 mx-auto rounded border p-3">
+        <h2 class="text-center mb-5">New Lease</h2>
+        @if (Model.errorMessage.Length > 0)
+        {
+            <div class="alert-warning alert-dismissible fade show" role="alert">
+                <strong>@Model.errorMessage</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        else if (Model.successMessage.Length > 0)
+        {
+            <div class="alert-success alert-dismissible fade show" role="alert">
+                <strong>@Model.successMessage</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Tenant Details</label>
+                <div class="col-sm-8">
+                    <select class="form-select" asp-for="LeaseDto.TenantID" class="form-control" id="tenantSelect">
+
+                        <option value="">Select a tenant...</option>
+                        @foreach (var item in (List<SelectListItem>?)ViewData["Tenants"] ?? new List<SelectListItem>())
+                        {
+                            var tenantDetails = item.Text.Split(',');
+                            if (tenantDetails.Length >= 5)
+                            {
+                                var tenantID = tenantDetails[0];
+                                var tenantName = tenantDetails[1];
+                                var tenantIdCard = tenantDetails[2];
+                                var tenantEmail = tenantDetails[3]; 
+                                var tenantTelephone = tenantDetails[4];
+
+                                <option value="@tenantID" data-tenantname="@tenantName" data-tenantemail="@tenantEmail" data-tenanttelephone="@tenantTelephone" data-tenantidcard="@tenantIdCard">
+                                    @($"{tenantID} - {tenantName}")
+                                </option>
+
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Not enough elements in tenantDetails for Tenant: {item.Text}");
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="LeaseDto.TenantID" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Tenant Name</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="LeaseDto.TenantName">
+                    <span asp-validation-for="LeaseDto.TenantName" class="text-danger"></span>
+                </div>
+            </div>
+                                                       
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">ID Card/Passport</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="LeaseDto.IdCard"/>
+                    <span asp-validation-for="LeaseDto.IdCard" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Email</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="LeaseDto.Email">
+                    <span asp-validation-for="LeaseDto.Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Telephone</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="LeaseDto.Telephone">
+                    <span asp-validation-for="LeaseDto.Telephone" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Property Details</label>
+                
+                    <div class="col-sm-8">
+                        <select class="form-select" asp-for="LeaseDto.PropertyID" class="form-control" id="propertySelect">
+
+                        <option value="">Select a property...</option>
+
+                            @foreach (var item in (List<SelectListItem>?)ViewData["Properties"] ?? new List<SelectListItem>())
+                            {
+                                
+                                var propertyDetails = item.Value.Split(',').Select(part => part.Trim()).ToArray();
+
+                                // Debug statements
+                                Console.WriteLine($"Number of elements in propertyDetails: {propertyDetails.Length}");
+                                Console.WriteLine($"Actual propertyDetails: {string.Join(", ", propertyDetails)}");
+
+                                var propertyId = propertyDetails.Length > 0 ? propertyDetails[0] : "N/A";
+                                var propertyName = propertyDetails.Length > 1 ? propertyDetails[1] : "N/A";
+                                var propertyRent = propertyDetails.Length > 2 ? propertyDetails[2] : "N/A";
+
+                                <option value="@propertyId" data-propertyname="@propertyName" data-propertyrent="@propertyRent">
+                                    @($"{propertyId} - {propertyName}")
+                                </option>
+                            }
+                        </select>
+                        <span asp-validation-for="LeaseDto.PropertyID" class="text-danger"></span>
+                    </div>                   
+                
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Address</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="LeaseDto.PropertyName" />
+                    <span asp-validation-for="LeaseDto.PropertyName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Rent</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="LeaseDto.Rent" />
+                    <span asp-validation-for="LeaseDto.Rent" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Lease Type</label>
+                <div class="col-sm-8">
+                    <select class="form-select" asp-for="LeaseDto.LeaseType">
+                        <option value="">Select Type...</option>
+                        <option value="Annual">Annual</option>
+                        <option value="MonthToMonth">Month to Month</option>
+                        <option value="Commercial">Commercial</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Start Date</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="LeaseDto.StartDate" />
+                    <span asp-validation-for="LeaseDto.StartDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">End Date</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="LeaseDto.EndDate" />
+                    <span asp-validation-for="LeaseDto.EndDate" class="text-danger"></span>
+                </div>
+            </div>
+                  
+            <div class="row mb-3">
+                <div class="offset-sm-4 col-sm-4 d-grid">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                <div class="col-sm-4 d-grid">
+                    <a class="btn btn-outline-primary" href="/Agent/Lease/Index" role="button">Cancel</a>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    const tenantSelect = document.getElementById('tenantSelect');
+    const propertySelect = document.getElementById('propertySelect');
+
+    tenantSelect.addEventListener('change', (event) => {
+        const tenantID = event.target.value;
+
+        const tenantDetails = jQuery('#tenantSelect').find(':selected').data('tenantname');
+        const tenantEmail = jQuery('#tenantSelect').find(':selected').data('tenantemail');
+        const tenantTelephone = jQuery('#tenantSelect').find(':selected').data('tenanttelephone');
+        const tenantIdCard = jQuery('#tenantSelect').find(':selected').data('tenantidcard');
+
+        // Update the Tenant ID field
+        jQuery('#LeaseDto_TenantID').val(tenantID);
+
+        // Update the Tenant Full Name field
+        jQuery('#LeaseDto_TenantName').val(tenantDetails);
+
+        // Update the Tenant Email field
+        jQuery('#LeaseDto_Email').val(tenantEmail);
+
+        // Update the Tenant Phone field
+        jQuery('#LeaseDto_Telephone').val(tenantTelephone);
+
+        // Update the Tenant ID Card field
+        jQuery('#LeaseDto_IdCard').val(tenantIdCard);
+    });
+
+    propertySelect.addEventListener('change', (event) => {
+        const propertyID = event.target.value;
+        const selectedOption = jQuery('#propertySelect').find(':selected');
+        const propertyName = selectedOption.data('propertyname');
+        const propertyRent = selectedOption.data('propertyrent');
+
+        console.log(`Property ID: ${propertyID}`);
+        console.log(`Property Rent: ${propertyRent}`);
+        console.log(`Property Name: ${propertyName}`);
+
+        // Update property details fields
+        const propertyRentInput = document.getElementById('LeaseDto_Rent');
+        propertyRentInput.value = propertyRent !== 'N/A' ? propertyRent : '';
+        const propertyNameInput = document.getElementById('LeaseDto_PropertyName');
+        propertyNameInput.value = propertyName !== 'N/A' ? propertyName : '';
+    });
+</script>

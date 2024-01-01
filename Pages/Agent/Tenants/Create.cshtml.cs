@@ -57,15 +57,6 @@ namespace TenantPropertyMngt.Pages.Agent.Tenants
             context.Tenants.Add(tenant);
             context.SaveChanges();
 
-            //clear form
-            //tenantDto.TenantName = "";
-            //tenantDto.DateOfBirth = "";
-            //tenantDto.Gender = "";
-            //tenantDto.MaritalStatus = "";
-            //tenantDto.Telephone = "";
-            //tenantDto.Occupation = "";
-            //tenantDto.Email = "";
- 
             ModelState.Clear();
 
             successMessage = "Tenant created succesfully";

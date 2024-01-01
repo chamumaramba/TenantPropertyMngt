@@ -51,19 +51,19 @@ namespace TenantPropertyMngt.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1be2bcbb-a7b7-469b-84e3-82be4a7773d6",
+                            Id = "98c7a1ab-d38a-425a-af2f-3e9127f535c2",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "01802a70-41ff-4059-be34-2dfa80d1c815",
+                            Id = "017fbe85-a6a2-44af-b942-bb5e2d48a981",
                             Name = "agent",
                             NormalizedName = "agent"
                         },
                         new
                         {
-                            Id = "42fd150f-a8b6-43cc-8291-44b9e172e83c",
+                            Id = "4b8cd82b-d763-4bef-9eb0-ceab59f1a5e1",
                             Name = "tenant",
                             NormalizedName = "tenant"
                         });
@@ -181,15 +181,15 @@ namespace TenantPropertyMngt.Migrations
 
             modelBuilder.Entity("PropertyModelTenantModel", b =>
                 {
+                    b.Property<int>("PropertyID")
+                        .HasColumnType("int");
+
                     b.Property<int>("TenantID")
                         .HasColumnType("int");
 
-                    b.Property<int>("TenantsTenantID")
-                        .HasColumnType("int");
+                    b.HasKey("PropertyID", "TenantID");
 
-                    b.HasKey("TenantID", "TenantsTenantID");
-
-                    b.HasIndex("TenantsTenantID");
+                    b.HasIndex("TenantID");
 
                     b.ToTable("TenantProperty", (string)null);
                 });
@@ -611,15 +611,15 @@ namespace TenantPropertyMngt.Migrations
 
             modelBuilder.Entity("PropertyModelTenantModel", b =>
                 {
-                    b.HasOne("TenantPropertyMngt.Models.PropertyModel", null)
+                    b.HasOne("TenantPropertyMngt.Models.TenantModel", null)
                         .WithMany()
-                        .HasForeignKey("TenantID")
+                        .HasForeignKey("PropertyID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TenantPropertyMngt.Models.TenantModel", null)
+                    b.HasOne("TenantPropertyMngt.Models.PropertyModel", null)
                         .WithMany()
-                        .HasForeignKey("TenantsTenantID")
+                        .HasForeignKey("TenantID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

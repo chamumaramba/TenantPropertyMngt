@@ -1,0 +1,110 @@
+﻿@page
+@model TenantPropertyMngt.Pages.Agent.Tenants.CreateModel
+@{
+}
+
+<div class="row">
+    <div class="col-md-8 mx-auto rounded border p-3">
+        <h2 class="text-center mb-5">New Tenant</h2>
+        @if (Model.errorMessage.Length > 0)
+        {
+            <div class="alert-warning alert-dismissible fade show" role="alert">
+                <strong>@Model.errorMessage</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        else if (Model.successMessage.Length > 0)
+        {
+            <div class="alert-success alert-dismissible fade show" role="alert">
+                <strong>@Model.successMessage</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Full Name</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="tenantDto.TenantName" />
+                    <span asp-validation-for="tenantDto.TenantName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">ID Card/Passport</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="tenantDto.IdCard" />
+                    <span asp-validation-for="tenantDto.IdCard" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+
+                <label class="col-sm-4 col-form-label">date of Birth</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="tenantDto.DateOfBirth" />
+                    <span asp-validation-for="tenantDto.DateOfBirth" class="text-danger"></span>
+                </div>
+            </div>
+     
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Gender</label>
+                <div class="col-sm-8">
+                    <select class="form-select" asp-for="tenantDto.Gender">
+                        <option value="">Select Gender...</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Marital Status</label>
+                <div class="col-sm-8">
+                    <select class="form-select" asp-for="tenantDto.MaritalStatus">
+                        <option value="">Select Status...</option>
+                        <option value="Single">Single</option>
+                        <option value="Married">Married</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Telephone</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="tenantDto.Telephone"></input>
+                    <span asp-validation-for="tenantDto.Telephone" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Occupation</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="tenantDto.Occupation" />
+                    <span asp-validation-for="tenantDto.Occupation" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Email</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="tenantDto.Email" />
+                    <span asp-validation-for="tenantDto.Email" class="text-danger"></span>
+                </div>
+            </div>
+      
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Associated Property</label>
+                <div class="col-sm-8">
+                    <input readonly class="form-control" asp-for="tenantDto.PropertyID" />
+                    <span asp-validation-for="tenantDto.PropertyID" class="text-danger"></span>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="offset-sm-4 col-sm-4 d-grid">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                <div class="col-sm-4 d-grid">
+                    <a class="btn btn-outline-primary" href="/Agent/Tenants/Index" role="button">Cancel</a>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,408 @@
+﻿
+@using Microsoft.AspNetCore.Identity
+@using TenantPropertyMngt.Models
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var isAdmin = User.IsInRole("admin");
+    var isAgent = User.IsInRole("agent");
+    var isTenant = User.IsInRole("tenant");
+}
+
+
+@if (isAdmin)
+{
+    <text>Admin</text>
+}
+else if (isAgent)
+{
+    <text>Agent</text>
+}
+else if (isTenant)
+{
+    <text>Tenant</text>
+}
+
+@if (isAdmin)
+{
+    <div class="container-scroller">
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+                <a class="sidebar-brand brand-logo" href="index.html"><img src="assets/images/logo.svg" alt="logo" /></a>
+                <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
+            </div>
+            <ul class="nav">
+                <li class="nav-item profile">
+                    <div class="profile-desc">
+                        <div class="profile-name">
+                            <h5 class="mb-0 font-weight-normal">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    var user = await UserManager.FindByNameAsync(User.Identity.Name);
+                                    if (user != null)
+                                    {
+                                        <text>@user.FirstName</text>
+                                    }
+                                    else
+                                    {
+                                        <text>@User.Identity.Name.Split('@')[0]</text>
+                                    }
+                                }
+                            </h5>
+                            <span>Admin</span>
+                        </div>
+                        <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
+                            <a asp-area="Identity" asp-page="/Account/Manage/Index" class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-settings text-primary"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject ellipsis mb-1 text-small">Profile</p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-onepassword  text-info"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject ellipsis mb-1 text-small">Change Password</p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a id="register" asp-area="Identity" asp-page="/Account/Logout" class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-calendar-today text-success"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject ellipsis mb-1 text-small">Logout</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item nav-category">
+                    <span class="nav-link">Navigation</span>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" asp-area="" asp-page="/Index">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-speedometer"></i>
+                        </span>
+                        <span class="menu-title">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" asp-area="" asp-page="/Agent/Properties/Index">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-table-large"></i>
+                        </span>
+                        <span class="menu-title">Properties</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" asp-area="" asp-page="/Agent/PropertyOwners/Index">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-table-large"></i>
+                        </span>
+                        <span class="menu-title">Property Owners</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" asp-area="" asp-page="/Agent/Tenants/Index">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-table-large"></i>
+                        </span>
+                        <span class="menu-title">Tenants</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" asp-area="" asp-page="/Agent/Lease/Index">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-chart-bar"></i>
+                        </span>
+                        <span class="menu-title">Leases</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" asp-area="" asp-page="/Agent/Accounts/Index">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-contacts"></i>
+                        </span>
+                        <span class="menu-title">Accounts</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Register">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-security"></i>
+                        </span>
+                        <span class="menu-title">Register</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Logout">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-security"></i>
+                        </span>
+                        <span class="menu-title">Logout</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+
+}
+else if (isAgent)
+{
+    <div class="container-scroller">
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+                <a class="sidebar-brand brand-logo" href="index.html"><img src="assets/images/logo.svg" alt="logo" /></a>
+                <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
+            </div>
+            <ul class="nav">
+                <li class="nav-item profile">
+                    <div class="profile-desc">
+                        <div class="profile-name">
+                            <h5 class="mb-0 font-weight-normal">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    var user = await UserManager.FindByNameAsync(User.Identity.Name);
+                                    if (user != null)
+                                    {
+                                        <text>@user.FirstName</text>
+                                    }
+                                    else
+                                    {
+                                        <text>@User.Identity.Name.Split('@')[0]</text>
+                                    }
+                                }
+                            </h5>
+                            <span>Agent</span>
+                        </div>
+                        <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
+                            <a asp-area="Identity" asp-page="/Account/Manage/Index" class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-settings text-primary"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject ellipsis mb-1 text-small">Profile</p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-onepassword  text-info"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject ellipsis mb-1 text-small">Change Password</p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a id=" register" asp-area="Identity" asp-page="/Account/Logout" class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-calendar-today text-success"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject ellipsis mb-1 text-small">Logout</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item nav-category">
+                    <span class="nav-link">Navigation</span>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" asp-area="" asp-page="/Index">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-speedometer"></i>
+                        </span>
+                        <span class="menu-title">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" asp-area="" asp-page="/Agent/Properties/Index">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-table-large"></i>
+                        </span>
+                        <span class="menu-title">Properties</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" asp-area="" asp-page="/Agent/PropertyOwners/Index">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-table-large"></i>
+                        </span>
+                        <span class="menu-title">Property Owners</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" asp-area="" asp-page="/Agent/Tenants/Index">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-table-large"></i>
+                        </span>
+                        <span class="menu-title">Tenants</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" asp-area="" asp-page="/Agent/Lease/Index">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-chart-bar"></i>
+                        </span>
+                        <span class="menu-title">Leases</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" asp-area="" asp-page="/Agent/Accounts/Index">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-contacts"></i>
+                        </span>
+                        <span class="menu-title">Accounts</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" asp-area="" asp-page="Agent/Contractors/Index">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-contacts"></i>
+                        </span>
+                        <span class="menu-title">Contractors</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" asp-area="" asp-page="/Maintenance/Index">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-contacts"></i>
+                        </span>
+                        <span class="menu-title">Maintenance</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-contacts"></i>
+                        </span>
+                        <span class="menu-title">Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Register">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-security"></i>
+                        </span>
+                        <span class="menu-title">Register</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Logout">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-security"></i>
+                        </span>
+                        <span class="menu-title">Logout</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+}
+
+
+@if (isTenant)
+{
+    <div class="container-scroller">
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+                <a class="sidebar-brand brand-logo" href="index.html"><img src="assets/images/logo.svg" alt="logo" /></a>
+                <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
+            </div>
+            <ul class="nav">
+                <li class="nav-item profile">
+                    <div class="profile-desc">
+                        <div class="profile-name">
+                            <h5 class="mb-0 font-weight-normal">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    var user = await UserManager.FindByNameAsync(User.Identity.Name);
+                                    if (user != null)
+                                    {
+                                        <text>@user.FirstName</text>
+                                    }
+                                    else
+                                    {
+                                        <text>@User.Identity.Name.Split('@')[0]</text>
+                                    }
+                                }
+                            </h5>
+                            <span>Tenant</span>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item nav-category">
+                    <span class="nav-link">Navigation</span>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" asp-area="" asp-page="/Index">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-speedometer"></i>
+                        </span>
+                        <span class="menu-title">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" asp-page="/Maintenance/Create">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-table-large"></i>
+                        </span>
+                        <span class="menu-title">Request Maintenance</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-table-large"></i>
+                        </span>
+                        <span class="menu-title">My Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Register">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-table-large"></i>
+                        </span>
+                        <span class="menu-title">Register</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" asp-area="Identity" asp-page="/Account/Logout">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-table-large"></i>
+                        </span>
+                        <span class="menu-title">Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+}
+
